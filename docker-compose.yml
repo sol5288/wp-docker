@@ -84,9 +84,9 @@ services:
       LETSENCRYPT_EMAIL: ${EMAIL}
       # 리버스 프록시 환경에서 HTTPS를 올바르게 인식하도록 설정
       WORDPRESS_CONFIG_EXTRA: |
-        if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
-          $_SERVER['HTTPS'] = 'on';
-        }
+          if (isset($$_SERVER['HTTP_X_FORWARDED_PROTO']) && $$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+            $$_SERVER['HTTPS'] = 'on';
+          }
     volumes:
       - wp_data:/var/www/html
     networks:
