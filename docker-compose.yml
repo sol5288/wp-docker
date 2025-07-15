@@ -13,7 +13,7 @@ volumes:
   db_data:
   portainer_data:
   certs:
-  vhost:
+  #vhost:
   html:
 
 services:
@@ -29,7 +29,7 @@ services:
       - "443:443"
     volumes:
       - certs:/etc/nginx/certs:ro
-      - vhost:/etc/nginx/vhost.d
+      #- vhost:/etc/nginx/vhost.d
       - html:/usr/share/nginx/html
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - ./vhost.d:/etc/nginx/vhost.d:ro  # ← 도메인별 설정 추가 (client_max_body_size 등)
@@ -48,7 +48,7 @@ services:
       - DEFAULT_EMAIL=${EMAIL}
     volumes:
       - certs:/etc/nginx/certs
-      - vhost:/etc/nginx/vhost.d
+      #- vhost:/etc/nginx/vhost.d
       - html:/usr/share/nginx/html
       - /var/run/docker.sock:/var/run/docker.sock:ro
     restart: always
