@@ -32,6 +32,7 @@ services:
       - vhost:/etc/nginx/vhost.d
       - html:/usr/share/nginx/html
       - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./vhost.d:/etc/nginx/vhost.d:ro  # ← 도메인별 설정 추가 (client_max_body_size 등)
     networks:
       - nginx-proxy
     restart: always
