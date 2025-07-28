@@ -90,6 +90,7 @@ services:
           }
     volumes:
       - wp_data:/var/www/html
+      - ./config/php.ini:/usr/local/etc/php/conf.d/custom.ini
     networks:
       - nginx-proxy # 외부 프록시와 연결
       - wordpress-net # 내부 DB와 연결
