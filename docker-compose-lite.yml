@@ -1,0 +1,64 @@
+# version: "3.9"
+
+services:
+  wp-db:
+    image: mariadb:10.11
+    container_name: wp-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - wordpress-net
+
+  wp:
+    image: wordpress:php8.2-fpm-alpine
+    container_name: wp
+    restart: unless-stopped
+    environment:
+      WORDPRESS_DB_HOST: wp-db:3306
+      WORDPRESS_DB_NAME: ${DB_NAME}
+      WORDPRESS_DB_USER: ${DB_USER}
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - wp_data:/var/www/html
+      - ./config/php.ini:/usr/local/etc/php/conf.d/custom.ini
+    depends_on:
+      - wp-db
+    networks:
+      - wordpress-net
+
+  caddy:
+    image: caddy:2
+    container_name: wordpress-caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DOMAIN: ${DOMAIN}
+      EMAIL: ${EMAIL}
+    volumes:
+      - wp_data:/var/www/html
+      - caddy_data:/data
+      - caddy_config:/config
+      - ./Caddyfile.template:/etc/caddy/Caddyfile.template
+    command: sh -c "envsubst < /etc/caddy/Caddyfile.template > /etc/caddy/Caddyfile && caddy run --config /etc/caddy/Caddyfile --adapter caddyfile"
+    depends_on:
+      - wp
+    networks:
+      - wordpress-net
+
+volumes:
+  db_data:
+  wp_data:
+  caddy_data:
+  caddy_config:
+
+networks:
+  wordpress-net:
+    driver: bridge

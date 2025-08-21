@@ -1,0 +1,7 @@
+{$DOMAIN} {
+    root * /var/www/html
+    php_fastcgi wp:9000
+    file_server
+    encode gzip
+    tls {$EMAIL}
+}
