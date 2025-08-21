@@ -47,7 +47,7 @@ services:
       - caddy_data:/data
       - caddy_config:/config
       - ./Caddyfile.template:/etc/caddy/Caddyfile.template
-    command: sh -c "apk add --no-cache gettext && envsubst '\$$DOMAIN \$$EMAIL' < /etc/caddy/Caddyfile.template > /etc/caddy/Caddyfile && caddy run --config /etc/caddy/Caddyfile --adapter caddyfile"
+    command: sh -c "apk add --no-cache gettext && envsubst < /etc/caddy/Caddyfile.template > /etc/caddy/Caddyfile && caddy run --config /etc/caddy/Caddyfile --adapter caddyfile"
     depends_on:
       - wp
     networks:
