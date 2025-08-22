@@ -3,5 +3,7 @@
     php_fastcgi wp:9000
     file_server
     encode gzip
-    tls ${EMAIL}
+    tls {
+        email ${EMAIL}
+    }
 }
