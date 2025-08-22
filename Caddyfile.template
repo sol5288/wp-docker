@@ -6,13 +6,16 @@ ${DOMAIN} {
     tls ${EMAIL}
 
     # === Converter for Media 대응 설정 ===
-    @webp {
-        path_regexp wpimg /wp-content/uploads/(.*)\.(jpg|jpeg|png)
-    }
-    rewrite @webp /wp-content/uploads-webpc/{re.wpimg.1}.webp
+    # 1. 원본 이미지(jpg, jpeg, png) 요청인지 확인하고, 경로 일부를 "image"라는 변수로 캡처합니다.
+    @imageRequest path_regexp image ^/wp-content/uploads/(.+\.(jpe?g|png))$
 
-    @avif {
-        path_regexp avifimg /wp-content/uploads/(.*)\.(jpg|jpeg|png)
-    }
-    rewrite @avif /wp-content/uploads-webpc/{re.avifimg.1}.avif
+    # 2. "image" 변수를 사용해 변환될 webp 파일의 전체 경로를 만들고, 이 파일이 실제로 존재하는지 확인합니다.
+    @webpAvailable file /var/www/html/wp-content/uploads-webpc/{re.image.1}.webp
+
+    # 3. 만약 webp 파일이 존재한다면(@webpAvailable), 요청 경로를 webp 파일로 재작성(rewrite)합니다.
+    rewrite @webpAvailable /wp-content/uploads-webpc/{re.image.1}.webp
+
+    # 4. (선택사항) AVIF도 동일한 방식으로 처리합니다.
+    @avifAvailable file /var/www/html/wp-content/uploads-webpc/{re.image.1}.avif
+    rewrite @avifAvailable /wp-content/uploads-webpc/{re.image.1}.avif
 }
