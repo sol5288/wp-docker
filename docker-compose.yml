@@ -97,19 +97,19 @@ services:
     restart: always
 
   # Portainer (도커 관리 도구)
-  portainer:
-    image: portainer/portainer-ce:latest
-    container_name: portainer
-    command: -H unix:///var/run/docker.sock
-    environment:
-      # Portainer도 리버스 프록시를 통해 접속하도록 설정 (예: portainer.your-domain.com)
-      VIRTUAL_HOST: portainer.${DOMAIN}
-      VIRTUAL_PORT: 9000
-      LETSENCRYPT_HOST: portainer.${DOMAIN}
-      LETSENCRYPT_EMAIL: ${EMAIL}
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
-    networks:
-      - nginx-proxy # 외부 프록시에만 연결
-    restart: always
+  # portainer:
+  #   image: portainer/portainer-ce:latest
+  #   container_name: portainer
+  #   command: -H unix:///var/run/docker.sock
+  #   environment:
+  #     # Portainer도 리버스 프록시를 통해 접속하도록 설정 (예: portainer.your-domain.com)
+  #     VIRTUAL_HOST: portainer.${DOMAIN}
+  #     VIRTUAL_PORT: 9000
+  #     LETSENCRYPT_HOST: portainer.${DOMAIN}
+  #     LETSENCRYPT_EMAIL: ${EMAIL}
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #     - portainer_data:/data
+  #   networks:
+  #     - nginx-proxy # 외부 프록시에만 연결
+  #   restart: always
