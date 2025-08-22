@@ -9,10 +9,10 @@ ${DOMAIN} {
     @webp {
         path_regexp wpimg /wp-content/uploads/(.*)\.(jpg|jpeg|png)
     }
-    rewrite @webp /wp-content/uploads/{re.wpimg.1}.webp
+    rewrite @webp /wp-content/uploads-webpc/{re.wpimg.1}.webp
 
     @avif {
         path_regexp avifimg /wp-content/uploads/(.*)\.(jpg|jpeg|png)
     }
-    rewrite @avif /wp-content/uploads/{re.avifimg.1}.avif
+    rewrite @avif /wp-content/uploads-webpc/{re.avifimg.1}.avif
 }
