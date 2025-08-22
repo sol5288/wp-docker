@@ -4,4 +4,15 @@ ${DOMAIN} {
     file_server
     encode gzip
     tls ${EMAIL}
+
+    # === Converter for Media 대응 설정 ===
+    @webp {
+        path_regexp wpimg /wp-content/uploads/(.*)\.(jpg|jpeg|png)
+    }
+    rewrite @webp /wp-content/uploads/{re.wpimg.1}.webp
+
+    @avif {
+        path_regexp avifimg /wp-content/uploads/(.*)\.(jpg|jpeg|png)
+    }
+    rewrite @avif /wp-content/uploads/{re.avifimg.1}.avif
 }
